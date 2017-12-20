@@ -8,3 +8,5 @@ https://github.com/michalfaber/keras_Realtime_Multi-Person_Pose_Estimation
 
 运行前确保模型文件存在 /model/keras/model.h5
 此文件可在 https://www.dropbox.com/s/llpxd14is7gyj0z/model.h5 下载
+
+在主分支目录下运行 python demo_camera.py 即可
