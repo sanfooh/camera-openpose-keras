@@ -253,29 +253,39 @@ if __name__ == '__main__':
     # vgg normalization (subtracting mean) on input images
     model = get_testing_model()
     model.load_weights(keras_weights_file)
-
+    
     cap=cv2.VideoCapture(0)
-    cap.set(3,160)
-    cap.set(4,120)
-    time.sleep(2) #必须要此步骤，否则失败
-     
-    
-    
-    while(1):
+    vi=cap.isOpened()
+    if(vi == False):
+        time.sleep(2) #必须要此步骤，否则失败
+        fr = cv2.imread('./sample_images/ski2.jpg',1)
         tic = time.time()
-        
-        ret,frame=cap.read()
-        cv2.imwrite(input_image, frame)
+        cv2.imwrite(input_image, fr)
         params, model_params = config_reader()
-            
-        # generate image with body parts
         canvas = process(input_image, params, model_params)    
         cv2.imshow("capture",canvas)
+        cv2.waitKey(0)  
+
+
+    if(vi == True):
+        cap.set(3,160)
+        cap.set(4,120)
+        time.sleep(2) #必须要此步骤，否则失败
+    
+        while(1):
+            tic = time.time()
         
-        if cv2.waitKey(1) & 0xFF==ord('q'):
-            break
-    cap.release()
-    cv2.destroyAllWindows()    
+            ret,frame=cap.read()
+            cv2.imwrite(input_image, frame)
+            params, model_params = config_reader()
+            
+        # generate image with body parts
+            canvas = process(input_image, params, model_params)    
+            cv2.imshow("capture",canvas) 
+            if cv2.waitKey(1) & 0xFF==ord('q'):
+                break
+        cap.release()   
+cv2.destroyAllWindows()    
 
 
 
